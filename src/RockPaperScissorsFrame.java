@@ -175,31 +175,31 @@ public class RockPaperScissorsFrame extends JFrame {
         return computerMove;
     }
     private void calculateWinner(String compMove, String playerMove) {
-        if (compMove == "Scissors" && playerMove == "Scissors") {
+        if (compMove.equals("Scissors") && playerMove.equals("Scissors")) {
             //tie
         }
-        else if (compMove == "Paper" && playerMove == "Paper") {
+        else if (compMove.equals("Paper") && playerMove.equals("Paper")) {
             //tie
         }
-        else if (compMove == "Rock" && playerMove == "Rock") {
+        else if (compMove.equals("Rock") && playerMove.equals("Rock")) {
             //tie
         }
-        else if (compMove == "Rock" && playerMove == "Paper") {
+        else if (compMove.equals("Rock") && playerMove.equals("Paper")) {
             //player win
         }
-        else if (compMove == "Rock" && playerMove == "Scissors") {
+        else if (compMove.equals("Rock") && playerMove.equals("Scissors")) {
             //comp win
         }
-        else if (compMove == "Paper" && playerMove == "Rock") {
+        else if (compMove.equals("Paper") && playerMove.equals("Rock")) {
             //comp win
         }
-        else if (compMove == "Paper" && playerMove == "Sicssors") {
+        else if (compMove.equals("Paper") && playerMove.equals("Sicssors")) {
             //player win
         }
-        else if (compMove == "Scissors" && playerMove == "Rock") {
+        else if (compMove.equals("Scissors")  && playerMove.equals("Rock")) {
             //player win
         }
-        else if (compMove == "Scissors" && playerMove == "Paper") {
+        else if (compMove.equals("Scissors") && playerMove.equals("Paper")) {
             //comp win
         }
     }
