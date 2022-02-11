@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.Random;
 
 public class RockPaperScissorsFrame extends JFrame {
     JPanel mainPnl;
@@ -25,6 +26,14 @@ public class RockPaperScissorsFrame extends JFrame {
     int computerWin;
     int playerWin;
     int gameTie;
+    String playerMove;
+    String computerMove;
+    int chooseStrat;
+    int randomMove;
+    String move;
+    String compMove;
+
+    Random rnd = new Random();
 
     Icon rock = new ImageIcon("\\Rock.png");
     Icon paper = new ImageIcon("\\Paper.jpg");
@@ -60,6 +69,24 @@ public class RockPaperScissorsFrame extends JFrame {
         quitBtn = new JButton("Quit");
 
         //add in action listeners
+        rockBtn.addActionListener((ActionEvent ae) -> {
+            move = "Rock";
+            compMove = computerPlay(move);
+            calculateWinner(compMove, move);
+        });
+
+        paperBtn.addActionListener((ActionEvent ae) -> {
+            move = "Paper";
+            compMove = computerPlay(move);
+            calculateWinner(compMove, move);
+        });
+
+        scissorsBtn.addActionListener((ActionEvent ae) -> {
+            move = "Scissors";
+            compMove = computerPlay(move);
+            calculateWinner(compMove, move);
+        });
+
         quitBtn.addActionListener((ActionEvent ae) -> {
             System.exit(0);
         });
@@ -101,6 +128,82 @@ public class RockPaperScissorsFrame extends JFrame {
         rpsTA.setEditable(false);
         scroller = new JScrollPane(rpsTA);
         displayPnl.add(scroller);
+
+    }
+
+    private String computerPlay(String playerMove) {
+        chooseStrat = rnd.nextInt(9);
+        switch (chooseStrat) {
+            case 0:
+                if (playerMove == "Scissors") {
+                    computerMove = "Rock";
+                }
+                else if (playerMove == "Rock") {
+                    computerMove = "Paper";
+                }
+                else {
+                    computerMove = "Scissors";
+                }
+                break;
+            case 1:
+            case 2:
+                //least
+                break;
+            case 3:
+            case 4:
+                //most
+                break;
+            case 5:
+            case 6:
+                //last
+                break;
+            case 7:
+            case 8:
+            case 9:
+                randomMove = rnd.nextInt(2);
+                if (randomMove == 0) {
+                    computerMove = "Scissors";
+                }
+                else if (randomMove == 1) {
+                    computerMove = "Paper";
+                }
+                else {
+                    computerMove = "Rock";
+                }
+                break;
+        }
+        return computerMove;
+    }
+    private void calculateWinner(String compMove, String playerMove) {
+        if (compMove == "Scissors" && playerMove == "Scissors") {
+            //tie
+        }
+        else if (compMove == "Paper" && playerMove == "Paper") {
+            //tie
+        }
+        else if (compMove == "Rock" && playerMove == "Rock") {
+            //tie
+        }
+        else if (compMove == "Rock" && playerMove == "Paper") {
+            //player win
+        }
+        else if (compMove == "Rock" && playerMove == "Scissors") {
+            //comp win
+        }
+        else if (compMove == "Paper" && playerMove == "Rock") {
+            //comp win
+        }
+        else if (compMove == "Paper" && playerMove == "Sicssors") {
+            //player win
+        }
+        else if (compMove == "Scissors" && playerMove == "Rock") {
+            //player win
+        }
+        else if (compMove == "Scissors" && playerMove == "Paper") {
+            //comp win
+        }
+    }
+    private void awardPoints() {
 
     }
 }
