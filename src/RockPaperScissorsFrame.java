@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Random;
@@ -8,15 +10,15 @@ public class RockPaperScissorsFrame extends JFrame {
     JPanel displayPnl;
     JPanel buttonPnl;
     JPanel statsPnl;
-    JLabel titleLbl;
     JLabel playerWinLbl;
     JLabel computerWinLbl;
     JLabel gameTieLbl;
     JTextArea rpsTA;
     JScrollPane scroller;
-    ImageIcon rockIcon;
-    ImageIcon paperIcon;
-    ImageIcon scissorsIcon;
+
+    JTextField playerWinCount;
+    JTextField tieCount;
+    JTextField compWinCount;
 
     JButton rockBtn;
     JButton paperBtn;
@@ -26,18 +28,16 @@ public class RockPaperScissorsFrame extends JFrame {
     int computerWin;
     int playerWin;
     int gameTie;
-    String playerMove;
     String computerMove;
     int chooseStrat;
-    int randomMove;
     String move;
     String compMove;
 
     Random rnd = new Random();
 
-    Icon rock = new ImageIcon("\\Rock.png");
-    Icon paper = new ImageIcon("\\Paper.jpg");
-    Icon scissors = new ImageIcon("\\Scissors.png");
+    Icon rock = new ImageIcon("C:\\Users\\vicer\\IdeaProjects\\Rock_Paper_Scissors\\src\\Rock.png");
+    Icon paper = new ImageIcon("C:\\Users\\vicer\\IdeaProjects\\Rock_Paper_Scissors\\src\\Paper.jpg");
+    Icon scissors = new ImageIcon("C:\\Users\\vicer\\IdeaProjects\\Rock_Paper_Scissors\\src\\Scissors.png");
 
     public RockPaperScissorsFrame() {
         mainPnl = new JPanel();
@@ -53,8 +53,7 @@ public class RockPaperScissorsFrame extends JFrame {
         mainPnl.add(displayPnl, BorderLayout.NORTH);
 
         add(mainPnl);
-        //might need to change size
-        setSize(400,400);
+        setSize(600,600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 
@@ -62,6 +61,7 @@ public class RockPaperScissorsFrame extends JFrame {
     private void createButtonPnl() {
         buttonPnl = new JPanel();
         buttonPnl.setLayout(new GridLayout(2,3));
+        buttonPnl.setBorder(new TitledBorder(new EtchedBorder(),""));
 
         rockBtn = new JButton("Rock", rock);
         paperBtn = new JButton("Paper", paper);
@@ -114,12 +114,16 @@ public class RockPaperScissorsFrame extends JFrame {
         gameTieLbl.setVerticalTextPosition(JLabel.CENTER);
         gameTieLbl.setHorizontalTextPosition(JLabel.CENTER);
 
+        compWinCount = new JTextField(String.valueOf(computerWin));
+        playerWinCount = new JTextField(String.valueOf(playerWin));
+        tieCount = new JTextField(String.valueOf(gameTie));
+
         statsPnl.add(playerWinLbl);
         statsPnl.add(computerWinLbl);
         statsPnl.add(gameTieLbl);
-        statsPnl.add(new JLabel(String.valueOf(playerWin)));
-        statsPnl.add(new JLabel(String.valueOf(computerWin)));
-        statsPnl.add(new JLabel(String.valueOf(gameTie)));
+        statsPnl.add(playerWinCount);
+        statsPnl.add(compWinCount);
+        statsPnl.add(tieCount);
 
     }
     private void createDisplayArea() {
@@ -132,78 +136,65 @@ public class RockPaperScissorsFrame extends JFrame {
     }
 
     private String computerPlay(String playerMove) {
-        chooseStrat = rnd.nextInt(9);
+        chooseStrat = rnd.nextInt(3);
         switch (chooseStrat) {
             case 0:
-                if (playerMove == "Scissors") {
-                    computerMove = "Rock";
-                }
-                else if (playerMove == "Rock") {
-                    computerMove = "Paper";
-                }
-                else {
-                    computerMove = "Scissors";
-                }
+                computerMove = "Scissors";
                 break;
             case 1:
+                computerMove = "Paper";
+                break;
             case 2:
-                //least
-                break;
-            case 3:
-            case 4:
-                //most
-                break;
-            case 5:
-            case 6:
-                //last
-                break;
-            case 7:
-            case 8:
-            case 9:
-                randomMove = rnd.nextInt(2);
-                if (randomMove == 0) {
-                    computerMove = "Scissors";
-                }
-                else if (randomMove == 1) {
-                    computerMove = "Paper";
-                }
-                else {
-                    computerMove = "Rock";
-                }
+                computerMove = "Rock";
                 break;
         }
         return computerMove;
     }
     private void calculateWinner(String compMove, String playerMove) {
         if (compMove.equals("Scissors") && playerMove.equals("Scissors")) {
-            //tie
+            rpsTA.append("Scissors & Scissors... It's a tie!\n");
+            gameTie++;
+            tieCount.setText(String.valueOf(gameTie));
         }
         else if (compMove.equals("Paper") && playerMove.equals("Paper")) {
-            //tie
+            rpsTA.append("Paper & Paper... It's a tie!\n");
+            gameTie++;
+            tieCount.setText(String.valueOf(gameTie));
         }
         else if (compMove.equals("Rock") && playerMove.equals("Rock")) {
-            //tie
+            rpsTA.append("Rock & Rock... It's a tie!\n");
+            gameTie++;
+            tieCount.setText(String.valueOf(gameTie));
         }
         else if (compMove.equals("Rock") && playerMove.equals("Paper")) {
-            //player win
+            rpsTA.append("Paper Covers Rock (Player Wins!)\n");
+            playerWin++;
+            playerWinCount.setText(String.valueOf(playerWin));
         }
         else if (compMove.equals("Rock") && playerMove.equals("Scissors")) {
-            //comp win
+            rpsTA.append("Rock Crushes Scissors (Computer Wins!)\n");
+            computerWin++;
+            compWinCount.setText(String.valueOf(computerWin));
         }
         else if (compMove.equals("Paper") && playerMove.equals("Rock")) {
-            //comp win
+            rpsTA.append("Paper Covers Rock (Computer Wins!)\n");
+            computerWin++;
+            compWinCount.setText(String.valueOf(computerWin));
         }
-        else if (compMove.equals("Paper") && playerMove.equals("Sicssors")) {
-            //player win
+        else if (compMove.equals("Paper") && playerMove.equals("Scissors")) {
+            rpsTA.append("Scissors Cuts Paper (Player Wins!)\n");
+            playerWin++;
+            playerWinCount.setText(String.valueOf(playerWin));
         }
         else if (compMove.equals("Scissors")  && playerMove.equals("Rock")) {
-            //player win
+            rpsTA.append("Rock Crushes Scissors (Player Wins!)\n");
+            playerWin++;
+            playerWinCount.setText(String.valueOf(playerWin));
         }
         else if (compMove.equals("Scissors") && playerMove.equals("Paper")) {
-            //comp win
+            rpsTA.append("Scissors Cuts Paper (Computer Wins!)\n");
+            computerWin++;
+            compWinCount.setText(String.valueOf(computerWin));
         }
-    }
-    private void awardPoints() {
-
     }
 }
